@@ -1,2 +1,2 @@
 <!--send.wxml-->
-<text>send.wxml</text>
+<text>{{tip_1}}</text>

@@ -1,5 +1,5 @@
 // find.js
-const SERVER_URL = "http://www.brisksoft.shop"
+const SERVER_URL = "https://www.brisksoft.shop/sdt/cxkd"
 
 Page({
 
@@ -11,6 +11,7 @@ Page({
     tip_dh: "快递单号",
     tip_fail: "查询失败！",
     result: '',
+    dh: '',
   },
 
   /**
@@ -70,22 +71,47 @@ Page({
   },
 
   /**
+   * 单号输入框事件
+   */
+  dhInputEvent: function(e) {
+      this.setData({
+          dh: e.detail.value
+      })
+  },
+
+  /**
    * 请求服务器查询快递
    */
   cxkdRequest: function(){
+      var self = this
       wx.request({
-          url: SERVER_URL, //仅为示例，并非真实的接口地址
-          data: {
-              dh:this.data.tip_dh
-          },
+          url: SERVER_URL, 
           header: {
-              'content-type': 'application/json'
+              'Content-Type': 'application/json'
+          },
+          data: {
+              dh: self.data.dh
           },
           success: function (res) {
-              console.log(res.data)
+              var tmpText = ''
+              if (res.data.status && res.data.status == 200) {
+                  for (var i in res.data.data) {
+                      var value = res.data.data[i]
+                      tmpText += value.time + "\n"
+                      tmpText += value.context + "\n"
+                      tmpText += "----------------------------------------------------------\n"
+                  }
+              }else{
+                  tmpText = res.data
+              }
+              self.setData({
+                  result: tmpText
+              })
           },
           fail: function(res) {
-            console.log(res)
+              self.setData({
+                  result: res.data
+              })
           }
       })
   },
@@ -98,7 +124,7 @@ Page({
       wx.scanCode({
           success: function (res) {
               this.setData({
-                  tip_dh: res.result
+                  dh: res.result
               })
           },
           fail: function (res) {

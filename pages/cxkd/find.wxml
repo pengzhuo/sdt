@@ -4,7 +4,7 @@
         <view class="page-section">
             <view class="weui-cells weui-cells_after-title">
                 <image class="image" src="../../image/bg_sm.png" bindtap="scanCode"/>
-               <input class="weui-input" auto-focus placeholder="{{tip_dh}}"/>
+               <input id="dh_text" class="weui-input" auto-focus placeholder="{{tip_dh}}" bindblur="dhInputEvent"/>
             </view>
         </view>
         <view class="btn-area">
