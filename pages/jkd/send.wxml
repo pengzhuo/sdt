@@ -1,2 +1,10 @@
 <!--send.wxml-->
-<text>{{tip_1}}</text>
+
+<view class="page">
+    <view class="page-body">
+        <view class="btn-area">
+            <button type="primary" bindtap="getKdInfo">{{tip_2}}</button>
+            <button type="primary" bindtap="getKdDetailsInfo">详情</button>
+        </view>
+    </view>
+</view>
