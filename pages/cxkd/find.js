@@ -123,8 +123,8 @@ Page({
       var that = this
       wx.scanCode({
           success: function (res) {
-              this.setData({
-                  dh: res.result
+              that.setData({
+                  dh: res.result,
               })
           },
           fail: function (res) {
