@@ -1,10 +1,19 @@
 <!--send.wxml-->
 
+<import src="../../template/area_select.wxml"/>
+
 <view class="page">
     <view class="page-body">
-        <view class="btn-area">
-            <button type="primary" bindtap="getKdInfo">{{tip_2}}</button>
-            <button type="primary" bindtap="getKdDetailsInfo">详情</button>
+        <view class="page-section">
+            <view class="weui-cells weui-cells_after-title">
+                <button class="miniButton" bindtap="choosearea">{{tip_4}}</button>
+               <input id="addr1_text" class="weui-input" auto-focus placeholder="{{tip_3}}" bindblur="dhInputEvent"/>
+            </view>
+            <view class="weui-cells weui-cells_after-title">
+               <input id="addr2_text" class="weui-input" placeholder="{{tip_5}}" bindblur="dhInputEvent_ex"/>
+            </view>
+            <button class="button" type="primary" bindtap="getKdInfo">{{tip_2}}</button>
         </view>
     </view>
 </view>
+<template is="area_select" data="{{showArea,resideprovince,residecity,country,currentTab,curr_pro,curr_cit,curr_cou}}" />

@@ -1,0 +1,21 @@
+<!--index.wxml-->
+
+<view class="page">
+    <view class="page-body">
+        <view class="page-section">
+            <view class="page-section-spacing">
+                <scroll-view scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+                    <view class="itemStyle">
+                        <block wx:for="{{kdInfo}}" wx:key="info">
+                            <view class="flex-wrp" style="flex-direction:row;">
+                                <text class="flex-item">{{item.companyName}}</text>
+                                <text class="flex-item">{{item.courierName}}</text>
+                                <button class="miniButton" id="{{item.guid}}" bindtap="getKdDetailsInfo">打电话</button>
+                            </view>
+                        </block>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+    </view>
+</view>
