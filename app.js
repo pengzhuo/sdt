@@ -1,10 +1,38 @@
 //app.js
+
+const SERVER_URL = "https://www.brisksoft.shop/sdt/user"
+
 App({
   onLaunch: function() {
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+    wx.checkSession({
+        success: function(res) {},
+        fail: function(res) {
+            wx.login({
+                success: function(res) {
+                    //将code上传给服务器换取session
+                    wx.request({
+                        url: SERVER_URL,
+                        data: {
+                            code: res.code,
+                        },
+                        header: {
+                            'Content-Type': 'application/json'
+                        },
+                        success: function(res) {},
+                        fail: function(res) {},
+                        complete: function(res) {},
+                    })
+                },
+                fail: function(res) {},
+                complete: function(res) {},
+            })
+        },
+        complete: function(res) {},
+    })
   },
 
   getUserInfo: function(cb) {
@@ -14,9 +42,26 @@ App({
     } else {
       //调用登录接口
       wx.getUserInfo({
-        withCredentials: false,
+        withCredentials: true,
         success: function(res) {
-          that.globalData.userInfo = res.userInfo
+            wx.request({
+                url: SERVER_URL,
+                data: {
+                    uinfo: {
+                        encryptedData: res.encryptedData,
+                        iv: res.iv,
+                        rawData: res.rawData,
+                        signature: res.signature,
+                    },
+                },
+                header: {
+                    'Content-Type': 'application/json'
+                },
+                success: function(res) {},
+                fail: function(res) {},
+                complete: function(res) {},
+            })
+          that.globalData.userInfo = res
           typeof cb == "function" && cb(that.globalData.userInfo)
         }
       })

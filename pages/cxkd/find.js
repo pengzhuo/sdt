@@ -99,7 +99,7 @@ Page({
                       var value = res.data.data[i]
                       tmpText += value.time + "\n"
                       tmpText += value.context + "\n"
-                      tmpText += "----------------------------------------------------------\n"
+                      tmpText += "--------------------------------------------\n"
                   }
               }else{
                   tmpText = res.data
