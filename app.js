@@ -4,25 +4,24 @@ const SERVER_URL = "https://www.brisksoft.shop/sdt/user"
 
 App({
   onLaunch: function() {
-    //调用API从本地缓存中获取数据
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-    wx.checkSession({
-        success: function(res) {},
-        fail: function(res) {
+    // wx.checkSession({
+    //     success: function(res) {},
+    //     fail: function(res) {
             wx.login({
                 success: function(res) {
                     //将code上传给服务器换取session
                     wx.request({
                         url: SERVER_URL,
                         data: {
+                            type: 1,
                             code: res.code,
                         },
                         header: {
                             'Content-Type': 'application/json'
                         },
-                        success: function(res) {},
+                        success: function(res) {
+                            wx.setStorageSync("userId", res.data)
+                        },
                         fail: function(res) {},
                         complete: function(res) {},
                     })
@@ -30,9 +29,9 @@ App({
                 fail: function(res) {},
                 complete: function(res) {},
             })
-        },
-        complete: function(res) {},
-    })
+    //     },
+    //     complete: function(res) {},
+    // })
   },
 
   getUserInfo: function(cb) {
@@ -44,10 +43,16 @@ App({
       wx.getUserInfo({
         withCredentials: true,
         success: function(res) {
+            var _userId = wx.getStorageSync('userId')
+            if (!_userId){
+                _userId = "-1"
+            }
             wx.request({
                 url: SERVER_URL,
                 data: {
+                    type: 2,
                     uinfo: {
+                        userId: _userId,
                         encryptedData: res.encryptedData,
                         iv: res.iv,
                         rawData: res.rawData,
